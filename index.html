@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Promo Spesial</title>
+    <style>
+        /* --- PENGATURAN TAMPILAN (CSS) --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f1419; /* Warna gelap */
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 480px; /* Ukuran optimal untuk layar HP */
+            background: #000;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+            border-radius: 12px;
+        }
+
+        /* Teks arahan di bawah video */
+        .footer-text {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #8899a6;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-wrapper">
+        <!-- 1. GANTI LINK VIDEO DI BAWAH INI -->
+        <video id="videoPlayer" playsinline controls preload="metadata">
+            <source src="https://yudi993.github.io/video11/bahan11.mp4" type="video/mp4">
+            Browser Anda tidak mendukung pemutaran video.
+        </video>
+    </div>
+
+    <div class="footer-text">
+        <p>Pastikan volume menyala 🔊</p>
+    </div>
+
+    <script>
+        /* --- LOGIKA SISTEM (JAVASCRIPT) --- */
+        const video = document.getElementById("videoPlayer");
+        
+        // 2. GANTI LINK AFFILIATE (SHOPEE) DI BAWAH INI
+        const LINK_AFFILIATE = "https://s.shopee.co.id/2g9bzgSmA0"; 
+        
+        // 3. GANTI WAKTU OTOMATIS PINDAH DI BAWAH INI (DALAM DETIK)
+        // Saat ini diatur 60 (1 menit). Ganti ke 5 jika ingin dites cepat di TrebEdit.
+        const WAKTU_PINDAH = 08;
+
+        let sudahPindah = false;
+
+        // FUNGSI 1: Memantau Waktu Putar Video & Pindah Otomatis
+        video.addEventListener("timeupdate", () => {
+            
+            // Jika waktu video sudah mencapai batas dan belum pernah pindah
+            if (video.currentTime >= WAKTU_PINDAH && !sudahPindah) {
+                sudahPindah = true; // Tandai agar tidak error berulang-ulang
+                
+                // Jeda otomatis video sebelum pindah
+                video.pause();
+                
+                // OTOMATIS PINDAH KE LINK SHOPEE SEKARANG
+                window.location.href = LINK_AFFILIATE;
+            }
+        });
+
+        // FUNGSI 2: Melanjutkan Video Saat Penonton Menekan Tombol "Kembali/Back" dari Shopee
+        document.addEventListener("visibilitychange", () => {
+            if (!document.hidden) {
+                // Mainkan kembali video saat penonton kembali ke halaman web Anda
+                video.play().catch(e => console.log("Gagal diputar ulang", e));
+                
+                // (Opsional) Jika ingin saat penonton nonton ulang, mereka bisa dilempar ke Shopee lagi:
+                // sudahPindah = false; 
+            } else {
+                // Jeda otomatis video jika penonton sedang berada di luar web (di Shopee)
+                video.pause();
+            }
+        });
+    </script>
+
+</body>
+</html>
